@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-11-26" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="2.8.11" locale="de_DE">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-11-26" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="2.8.11" locale="de">
     <description/>
     <view zooming-state="default:2" id="gantt-chart">
         <field id="tpd3" name="Vorgang" width="167" order="0"/>
@@ -33,6 +33,19 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
+        <task id="0" name="Projektplanung auf Papier" color="#8cb6ce" meeting="false" start="2020-11-26" duration="6" complete="0" thirdDate="2020-11-26" thirdDate-constraint="0" expand="true">
+            <depend id="3" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="3" name="NSD oder PAP, und Farberkennung" color="#8cb6ce" meeting="false" start="2020-12-04" duration="11" complete="0" thirdDate="2020-11-26" thirdDate-constraint="0" expand="true">
+            <depend id="6" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="6" name="Algebraische und Graphische Lösung" color="#8cb6ce" meeting="false" start="2020-12-21" duration="21" complete="0" thirdDate="2020-11-26" thirdDate-constraint="0" expand="true">
+            <depend id="9" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="9" name="Implementierung und Dokumentation" color="#8cb6ce" meeting="false" start="2021-01-19" duration="16" complete="0" thirdDate="2020-11-26" thirdDate-constraint="0" expand="true">
+            <depend id="12" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="12" name="Vorbereitung der Präsentation" color="#8cb6ce" meeting="false" start="2021-02-10" duration="6" complete="0" thirdDate="2020-11-26" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources/>
     <allocations/>
