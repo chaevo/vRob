@@ -1,4 +1,4 @@
-function [Farbe] = colorSort(r,g,b)
+function [Farbe] = colorSort(v)
 %COLORSORT Funktion zur Farbzuweisung
 %   Die Funktion erkennt die vom Sensor erfasste Farbe und ordnet sie den
 %   Werten 0=rot, 1=gruen, 2=blau und -1=andereFarbe/Fehler. Die Funktion
@@ -6,9 +6,10 @@ function [Farbe] = colorSort(r,g,b)
 %   dreimal ausgeführt um Fehler bei der Auslesung zu vermindern.
 
 %Definieren der Variablen
-rot = r;
-gruen = g;
-blau = b;
+
+rot = v(1);
+gruen = v(2);
+blau = v(3);
 
 %Definieren der Farben
 farbeR = 0;
