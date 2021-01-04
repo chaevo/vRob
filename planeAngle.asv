@@ -1,0 +1,7 @@
+function [angle] = planeAngle(x,y)
+%planeAngle Die Funktion berechnet den Winkel der Koordinate vom Nullpunkt.
+%   Die Funktion erhält als Übergabewerte die X- und Y- Koordinate und gibt
+%   den Winkel 
+angel = 
+end
+
