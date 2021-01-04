@@ -3,7 +3,7 @@ function [angle] = angle2point(x,y)
 %   Die Funktion erhält als Übergabewerte die X- und Y- Koordinate und gibt
 %   den Winkel vom Nullpunkt zu diesem Punkt in Grad aus.
 
-angle = atand(y/x); %Berechnung des Winkels durch atan
+angle = atand(y/x); %Berechnung des Winkels durch atan 
 
 end
 
