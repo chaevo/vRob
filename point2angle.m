@@ -17,9 +17,6 @@ s = schnittpunkt(mid);
  angle3 = vector2angle(v2,v3)
  angle4 = vector2angle(v3,v4)
  
- 
-         
- 
- 
+angleV= [angle1 angle2 angle3 angle4]
 
 end
