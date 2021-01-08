@@ -20,7 +20,7 @@ else
 end
     
 %Berechnung des Schnittwinkels der beiden Vektoren
-angle = atan2d(norm(cross(u1,u2)), dot(u1,u2));
+angle = 180- atan2d(norm(cross(u1,u2)), dot(u1,u2));
 
 end
 
