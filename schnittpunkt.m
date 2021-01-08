@@ -23,6 +23,7 @@ if Q1y > Q2y
     schnitt = [Q1x Q1y]
 else
     schnitt = [Q2x Q2y]
+end
     
 
 
