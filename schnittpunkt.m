@@ -19,6 +19,9 @@ Q1y = A(1) + x*(B(2)-A(2)/c)+y*(B(2)-A(2)/c)
 Q2x = A(1) + x*(B(1)-A(1)/c)+y*(B(1)-A(1)/c)
 Q2y = A(1) + x*(B(2)-A(2)/c)-y*(B(2)-A(2)/c)
 
+Q1x = round(Q1x)
+Q1y = round(Q1y)
+
 if Q1y > Q2y
     schnitt = [Q1x Q1y]
 else
