@@ -4,9 +4,9 @@ function [schnitt] = schnittpunkt (mid2)
 % Der Schnittpunkt mit dem größeren y wird ausgegeben.
 
 % Variablen
-a= 166
-b=218
-A= [0;  122]
+a= 166;
+b=218;
+A= [0;  122];
 
 
 c = sqrt((mid2(1)-A(1))^2+(mid2(2)-A(2))^2);
