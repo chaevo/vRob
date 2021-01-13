@@ -6,7 +6,7 @@ function [schnitt] = schnittpunkt (mid2)
 % Variablen
 a= 166
 b=218
-A= [0 122]
+A= [0;  122]
 
 
 c = sqrt((mid2(1)-A(1))^2+(mid2(2)-A(2))^2);
@@ -28,9 +28,9 @@ Q2y = A(2) + x*((mid2(2)-A(2))/c)-y*((mid2(1)-A(1))/c);
 % Vergleich der Punkte
 
 if (Q1y > Q2y)
-    schnitt = [Q1x Q1y];
+    schnitt = [Q1x;  Q1y];
 else
-    schnitt = [Q2x Q2y];
+    schnitt = [Q2x;  Q2y];
 end
     
 

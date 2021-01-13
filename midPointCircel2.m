@@ -7,7 +7,7 @@ function [mid2] = midPointCircel2 (dist,z,h2g)
     x4= sind(h2g)*129.9
     y4=cosd(h2g)*-129.9
 
-mid2= [dist,z] - [x4,y4];
+mid2= [dist; z] - [x4; y4];
 
  
 end
