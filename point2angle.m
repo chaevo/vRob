@@ -6,7 +6,7 @@ s = schnittpunkt(mid);
  v3 = vektor3(s,mid);
  v4 = vektor4(mid,h2g);
  
- angle1 = rad2deg(subspace(x,y));
+ angle1 = angle2point(x,y);
  
 %  angle2 = rad2deg(subspace(v1,v2))
  
