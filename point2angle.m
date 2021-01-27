@@ -1,4 +1,9 @@
-function [angleV] = point2angle(x,y,z,h2g)
+function [angleV] = point2angle(Input)
+%Input:=[x;y;z;h2g]
+x=Input(1)
+y=Input(2)
+z=Input(3)
+h2g=Input(4)
 v1 = [0; 122];
 mid = midPointCircel2(dist2point(x,y),z,h2g);
 s = schnittpunkt(mid);
