@@ -30,6 +30,7 @@ A=[0,0;1,0;2,0;0,1;0,1;2,1] %später ersetzen mit Scan und eingabe A
 for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
    while length(find(A(:,1)==a))~=length(find(A(:,2)==a))
        %Welche Spalte größer:
+        %Mehr Ist Farben
         if length(find(A(:,1)==a)) > length(find(A(:,2)==a))
             b=1
             zwischenV = find(A(:,1)==a)
@@ -48,14 +49,90 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
             point2angle([160,0,12,-50])
             openHand(obj)
             %Ende Kippfunktion
-            point2angle([160,0,65,90])
-            zwcolor=rob.getSensorColor()
+            point2angle([160,0,65,90]) %Scanpos auf zwischenPos
+            zwcolor=rob.getSensorColor()%Funktioniert Sensorcolor?
             if zwcolor~=2
-                
-            
+               %Dreht den Würfel über seine Hochachse
+               point2angle([zwischenPos,0])
+               closeHand(obj)
+               point2angle([160,0,24,0])
+               wristrot(90)%Richtige Funktion suchen
+               point2angle([zwischenPos,0])
+               openHand(obj)
+               wristrot(0)
+               %Ende Drehung
+               %Kippfunktion
+               point2angle([160,0,12,40])
+               closeHand(obj)
+               point2angle([160,0,24,40])
+               point2angle([160,0,24,-50])
+               point2angle([160,0,12,-50])
+               openHand(obj)
+               %Ende Kippfunktion
+            else
+            A(zwischenV(b),1)=2
+            end
+        %Mehr Soll Farben    
         else
-            
-        end
+            %Blau ist > 0
+            if length(find(A(:,1)==2)) > 0
+               b=1
+               zwischenV = find(A(:,1)==2)
+               while A(zwischenV(b),1) == A(zwischenV(b),2) && b < length(zwischenV)
+                   b=b+1
+               end
+               if A(zwischenV(b),1) == A(zwischenV(b),2)
+                  b=1
+                  zwischenV = find(A(:,1)==1)
+                  while A(zwischenV(b),1) == A(zwischenV(b),2)
+                      b=b+1
+                  end
+               else
+               end
+            %Blau ist nicht > 0
+            else
+                b=1
+                zwischenV = find(A(:,1)==1)
+                while A(zwischenV(b),1) == A(zwischenV(b),2)
+                    b=b+1
+                end
+            end
+            point2angle([gripPosV(zwischenV(b),:),0])
+            closeHand(obj)
+            point2angle([zwischenPos,0])
+            openHand(obj)
+            %Kippt den Würfel auf der zwischenPos
+            point2angle([160,0,12,40])
+            closeHand(obj)
+            point2angle([160,0,24,40])
+            point2angle([160,0,24,-50])
+            point2angle([160,0,12,-50])
+            openHand(obj)
+            %Ende Kippfunktion
+            point2angle([160,0,65,90]) %Scanpos auf zwischenPos
+            zwcolor=rob.getSensorColor()%Funktioniert Sensorcolor?
+            if zwcolor~=a
+               %Dreht den Würfel über seine Hochachse
+               point2angle([zwischenPos,0])
+               closeHand(obj)
+               point2angle([160,0,24,0])
+               wristrot(90)%Richtige Funktion suchen
+               point2angle([zwischenPos,0])
+               openHand(obj)
+               wristrot(0)
+               %Ende Drehung
+               %Kippfunktion
+               point2angle([160,0,12,40])
+               closeHand(obj)
+               point2angle([160,0,24,40])
+               point2angle([160,0,24,-50])
+               point2angle([160,0,12,-50])
+               openHand(obj)
+               %Ende Kippfunktion
+            else
+            end
+            A(zwischenV(b),1)= a
     end
    end
+end
 end
