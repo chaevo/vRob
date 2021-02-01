@@ -13,6 +13,8 @@ s = schnittpunkt(mid);
  
  angle1 = angle2point(x,y);
  
+ angle5 = angle2point (x,y);
+ 
 %  angle2 = rad2deg(subspace(v1,v2))
  
  if (v2(1)>= 0)
@@ -31,6 +33,6 @@ s = schnittpunkt(mid);
      angle4 = rad2deg(subspace(v3,v4));
  end
  
-angleV = [angle1 angle2 angle3 angle4];
+angleV = [angle1 angle2 angle3 angle4 angle5];
 
 end
