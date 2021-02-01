@@ -3,7 +3,7 @@ function [angleV] = point2angle(Input)
 x=Input(1)
 y=Input(2)
 z=Input(3)
-h2g=Input(4)
+h2g = Input(4)
 v1 = [0; 122];
 mid = midPointCircel2(dist2point(x,y),z,h2g);
 s = schnittpunkt(mid);
@@ -23,15 +23,10 @@ s = schnittpunkt(mid);
      angle2 = -rad2deg(subspace(v1,v2));
  end
  
- angle3 = rad2deg(subspace(v2,v3));
+ angle3 =rad2deg( atan2(v2(2),v2(1))-atan2(v3(2),v3(1)))
  
- % angle4 = rad2deg(subspace(v3,v4))
- 
- if (v3(2) > h2g)
-     angle4 = -rad2deg(subspace(v3,v4));
- else
-     angle4 = rad2deg(subspace(v3,v4));
- end
+
+ angle4 = rad2deg(atan2(v3(2),v3(1))-atan2(v4(2),v4(1)))
  
 angleV = [angle1 angle2 angle3 angle4 angle5];
 
