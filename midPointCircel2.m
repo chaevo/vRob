@@ -4,9 +4,9 @@ function [mid2] = midPointCircel2 (dist,z,h2g)
 % festlegt.
 % h2g ist der hand2ground Winkel
 
-    x4= sind(h2g)*129.9
+    x4= sind(h2g)*129.9;
    
-    y4=cosd(h2g)*-129.9
+    y4=cosd(h2g)*-129.9;
 
 mid2= [dist; z] - [x4; y4];
 

@@ -1,4 +1,11 @@
-function tauschvorgang(vRob)
+function tauschvorgang(A)
+%Der Tauschvorgang ist der Bestandteil des Programms, der die Aufgabe, das
+%gewünschte Bild herzustellen, ausführt. Hierzu geht er mit der gegebenen 
+%Matrix A, welche die Soll- und Ist-Werte wie folgt vor: Zuerst dreht der 
+%Roboter alle Würfel so, dass es genügend Tauschpartner für jede gewünschte 
+%Farbe gibt. Daraufhin tauscht er jeden Würfel so, dass das gewünschte Bild
+%entsteht.
+
 %Positionsdaten
 scanPos1 = [292.2988,-70.1517,65];
 scanPos2 = [293.5,0,65];
@@ -33,344 +40,342 @@ scanPosV = [scanPos1;scanPos2;scanPos3;scanPos4;scanPos5;scanPos6;scanPos7;scanP
 zwischenPos = [160,0,12];
 zwischenPosH = [160,0,50];
 zwischenScanPos = [203.5,0,65,90];
-A=[0,0;0,1;0,2;1,2;2,0;0,1;0,1;2,2;2,0] %später ersetzen mit Scan und eingabe A
+
+A(:,1)=[2 1 0 2 2 0 1 1 1]%ist
+A(:,2)=[0 1 2 1 0 1 2 1 0]%soll später ersetzen mit Scan und eingabe A
 %Farbe -1 auch implementieren
-%Semikolon einfügen
 %anständige Kommentare
-%Scanposition direkt über würfel oder versetzt?
-%eventuell vor und nach Greifen erstmal ein stück hoch
-%Wartefunktion vor nächster Bewegung
-%Würfel immer zurückgebracht?
-%moveAngles: rob.moveAngles, richtige Eingabevariablen
 %Jeden Fall des Codes durchgehen und prüfen
-if length(A(1,:))==2
+
+%Hier wird geprüft, ob bereits gescannt wurde.
+if length(A(1,:))==2;
 for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
-   while length(find(A(:,1)==a))~=length(find(A(:,2)==a))
+   while length(find(A(:,1)==a))~=length(find(A(:,2)==a));
        %Welche Spalte größer:
         %Mehr Ist Farben
-        if length(find(A(:,1)==a)) > length(find(A(:,2)==a))
-            b=1
-            zwischenV = find(A(:,1)==a)
-            while A(zwischenV(b),1) == A(zwischenV(b),2)
-                b=b+1
+        if length(find(A(:,1)==a)) > length(find(A(:,2)==a));
+            b=1;
+            zwischenV = find(A(:,1)==a);
+            while A(zwischenV(b),1) == A(zwischenV(b),2);
+                b=b+1;
             end
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.openHand
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
             %Kippt den Würfel auf der zwischenPos
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-            vRob.waitFor
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+            vRob.waitFor;
             %Ende Kippfunktion
-            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1) %Scanpos auf zwischenPos
-            vRob.waitFor
-            zwcolor=colorSort(getSensorColor(vRob))%Funktioniert Sensorcolor?
-            if zwcolor~=2
+            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1); %Scanpos auf zwischenPos
+            vRob.waitFor;
+            zwcolor=colorSort(getSensorColor(vRob));%Funktioniert Sensorcolor?
+            if zwcolor~=2;
                %Dreht den Würfel über seine Hochachse
-               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-               vRob.waitFor
-               vRob.closeHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-               vRob.moveAngles(5,90,-1)
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-               vRob.moveAngles(5,90,-1)
-               vRob.waitFor
-               vRob.openHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-               vRob.moveAngles(5,0,-1)
+               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+               vRob.waitFor;
+               vRob.closeHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+               vRob.moveAngles(5,90,-1);
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+               vRob.moveAngles(5,90,-1);
+               vRob.waitFor;
+               vRob.openHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+               vRob.moveAngles(5,0,-1);
                %Ende Drehung
                %Kippfunktion
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1)
-               vRob.waitFor
-               vRob.closeHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1)
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1)
-               vRob.waitFor
-               vRob.openHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-               vRob.waitFor
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1);
+               vRob.waitFor;
+               vRob.closeHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1);
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1);
+               vRob.waitFor;
+               vRob.openHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+               vRob.waitFor;
                %Ende Kippfunktion
             else
             end
             %Würfel zurückbringen
-            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            A(zwischenV(b),1)=2
+            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            A(zwischenV(b),1)=2;
         %Mehr Soll Farben    
         else
             %Blau ist > 0
-            if length(find(A(:,1)==2)) > 0
-               b=1
-               zwischenV = find(A(:,1)==2)
-               while A(zwischenV(b),1) == A(zwischenV(b),2) && b < length(zwischenV)
-                   b=b+1
+            if length(find(A(:,1)==2)) > 0;
+               b=1;
+               zwischenV = find(A(:,1)==2);
+               while A(zwischenV(b),1) == A(zwischenV(b),2) && b < length(zwischenV);
+                   b=b+1;
                end
-               if A(zwischenV(b),1) == A(zwischenV(b),2)
-                  b=1
-                  zwischenV = find(A(:,1)==1)
-                  while A(zwischenV(b),1) == A(zwischenV(b),2)
-                      b=b+1
+               if A(zwischenV(b),1) == A(zwischenV(b),2);
+                  b=1;
+                  zwischenV = find(A(:,1)==1);
+                  while A(zwischenV(b),1) == A(zwischenV(b),2);
+                      b=b+1;
                   end
                else
                end
             %Blau ist nicht > 0
             else
-                b=1
-                zwischenV = find(A(:,1)==1)
-                while A(zwischenV(b),1) == A(zwischenV(b),2)
-                    b=b+1
+                b=1;
+                zwischenV = find(A(:,1)==1);
+                while A(zwischenV(b),1) == A(zwischenV(b),2);
+                    b=b+1;
                 end
             end
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.openHand
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
             %Kippt den Würfel auf der zwischenPos
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-            vRob.waitFor
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+            vRob.waitFor;
             %Ende Kippfunktion
-            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1) %Scanpos auf zwischenPos
-            vRob.waitFor
-            zwcolor=colorSort(getSensorColor(vRob))%Funktioniert Sensorcolor?
-            if zwcolor~=a
+            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1); %Scanpos auf zwischenPos
+            vRob.waitFor;
+            zwcolor=colorSort(getSensorColor(vRob));%Funktioniert Sensorcolor?
+            if zwcolor~=a;
                %Dreht den Würfel über seine Hochachse
-               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-               vRob.waitFor
-               vRob.closeHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-               vRob.moveAngles(5,90,-1)
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-               vRob.moveAngles(5,90,-1)
-               vRob.waitFor
-               vRob.openHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-               vRob.moveAngles(5,0,-1)
+               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+               vRob.waitFor;
+               vRob.closeHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+               vRob.moveAngles(5,90,-1);
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+               vRob.moveAngles(5,90,-1);
+               vRob.waitFor;
+               vRob.openHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+               vRob.moveAngles(5,0,-1);
                %Ende Drehung
                %Kippfunktion
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1)
-               vRob.waitFor
-               vRob.closeHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1)
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1)
-               vRob.waitFor
-               vRob.openHand
-               vRob.waitFor
-               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-               vRob.waitFor
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1);
+               vRob.waitFor;
+               vRob.closeHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,40]),-1);
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,-50]),-1);
+               vRob.waitFor;
+               vRob.openHand;
+               vRob.waitFor;
+               vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+               vRob.waitFor;
                %Ende Kippfunktion
             else
             end
             %Würfel zurückbringen
-            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1)
-            A(zwischenV(b),1)= a
+            vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
+            A(zwischenV(b),1)= a;
         end
    end
 end
-for a=1:9
-    b=1
+for a=1:9;
+    b=1;
     %Soll entspricht nicht Ist
-    if A(a,1) ~= A(a,2)
-        while (A(a,1)~=A(a+b,2)||A(a+b,1)~=A(a,2)) && (b<9-a)
-        b=b+1
+    if A(a,1) ~= A(a,2);
+        while (A(a,1)~=A(a+b,2)||A(a+b,1)~=A(a,2)) && (b<9-a);
+        b=b+1;
         end
         %Zwei Fliegen mit einer Klatsche
-        if A(a,1)==A(a+b,2) && A(a+b,1)==A(a,2)
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            A(a,1) = A(a,2)
-            A(a+b,1) = A(a+b,2)
+        if A(a,1)==A(a+b,2) && A(a+b,1)==A(a,2);
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            A(a,1) = A(a,2);
+            A(a+b,1) = A(a+b,2);
         %Beliebiger Tauschpartner    
         else
-            b=1
-            while A(a,2) ~= A(a+b,1)
-                b=b+1
+            b=1;
+            while A(a,2) ~= A(a+b,1);
+                b=b+1;
             end
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1)
-            vRob.waitFor
-            vRob.closeHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1)
-            vRob.waitFor
-            vRob.openHand
-            vRob.waitFor
-            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1)
-            vRob.waitFor
-            A(a+b,1) = A(a,1)
-            A(a,1) = A(a,2)
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
+            vRob.waitFor;
+            vRob.closeHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPosH,0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(a+b,:),0]),-1);
+            vRob.waitFor;
+            vRob.openHand;
+            vRob.waitFor;
+            vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a+b,:),0]),-1);
+            vRob.waitFor;
+            A(a+b,1) = A(a,1);
+            A(a,1) = A(a,2);
         end
     else
     end
 end
-vRob.moveAngles([1,2,3,4,5],point2angle([180,0,50,0]),-1)
-vRob.waitFor
+vRob.moveAngles([1,2,3,4,5],point2angle([180,0,50,0]),-1);
+vRob.waitFor;
 'Der VRob ist fertig'
 else
     'Es muss zuerst gescannt werden'
