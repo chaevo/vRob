@@ -1,10 +1,10 @@
-function tauschvorgang(A)
+function tauschvorgang(A,vRob)
 %Der Tauschvorgang ist der Bestandteil des Programms, der die Aufgabe, das
 %gewünschte Bild herzustellen, ausführt. Hierzu geht er mit der gegebenen 
-%Matrix A, welche die Soll- und Ist-Werte wie folgt vor: Zuerst dreht der 
-%Roboter alle Würfel so, dass es genügend Tauschpartner für jede gewünschte 
-%Farbe gibt. Daraufhin tauscht er jeden Würfel so, dass das gewünschte Bild
-%entsteht.
+%Matrix A, welche die Soll- und Ist-Werte enthält, wie folgt vor: Zuerst 
+%dreht der Roboter alle Würfel so, dass es genügend Tauschpartner für jede 
+%gewünschte Farbe gibt. Daraufhin tauscht er jeden Würfel so, dass das 
+%gewünschte Bild entsteht.
 
 %Positionsdaten
 scanPos1 = [292.2988,-70.1517,65];
@@ -41,24 +41,29 @@ zwischenPos = [160,0,12];
 zwischenPosH = [160,0,50];
 zwischenScanPos = [203.5,0,65,90];
 
-A(:,1)=[2 1 0 2 2 0 1 1 1]%ist
-A(:,2)=[0 1 2 1 0 1 2 1 0]%soll später ersetzen mit Scan und eingabe A
 %Farbe -1 auch implementieren
 %anständige Kommentare
 %Jeden Fall des Codes durchgehen und prüfen
 
 %Hier wird geprüft, ob bereits gescannt wurde.
-if length(A(1,:))==2;
-for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
+if (A(1,1)~=-1)
+    
+%1. Hauptschleife für die Überprüfung der nötigen Anzahl für
+%Tauschoperationen.
+for a=0:1
+   %gibt es ungenügend Tauschpartner?
    while length(find(A(:,1)==a))~=length(find(A(:,2)==a));
-       %Welche Spalte größer:
+        %gibt es zu viel oder zu wenig Tauschpartner?:
         %Mehr Ist Farben
         if length(find(A(:,1)==a)) > length(find(A(:,2)==a));
             b=1;
             zwischenV = find(A(:,1)==a);
+            %Finde richtigen Drehwürfel
             while A(zwischenV(b),1) == A(zwischenV(b),2);
                 b=b+1;
             end
+            %Bewege Drehwürfel auf Zwischenposition und drehe in auf
+            %gewünschte Farbe
             vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
             vRob.waitFor;
             vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1);
@@ -72,7 +77,7 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
             vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,0]),-1);
             vRob.waitFor;
             vRob.openHand;
-            %Kippt den Würfel auf der zwischenPos
+            %Kippt den Würfel auf der zwischenPos.
             vRob.waitFor;
             vRob.moveAngles([1,2,3,4,5],point2angle([zwischenPos,40]),-1);
             vRob.waitFor;
@@ -87,9 +92,10 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
             vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
             vRob.waitFor;
             %Ende Kippfunktion
-            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1); %Scanpos auf zwischenPos
+            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1);
             vRob.waitFor;
-            zwcolor=colorSort(getSensorColor(vRob));%Funktioniert Sensorcolor?
+            zwcolor=colorSort(getSensorColor(vRob));
+            %Wurde die falsche Farbe gedreht?
             if zwcolor~=2;
                %Dreht den Würfel über seine Hochachse
                vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
@@ -145,7 +151,7 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
             A(zwischenV(b),1)=2;
         %Mehr Soll Farben    
         else
-            %Blau ist > 0
+            %Es gibt blaue Würfel zum Drehen.
             if length(find(A(:,1)==2)) > 0;
                b=1;
                zwischenV = find(A(:,1)==2);
@@ -160,7 +166,7 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
                   end
                else
                end
-            %Blau ist nicht > 0
+            %Es gibt keine blauen Würfel zum Drehen
             else
                 b=1;
                 zwischenV = find(A(:,1)==1);
@@ -168,6 +174,7 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
                     b=b+1;
                 end
             end
+            %Dreht den Würfel auf gewünschte Farbe.
             vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(zwischenV(b),:),0]),-1);
             vRob.waitFor;
             vRob.moveAngles([1,2,3,4,5],point2angle([gripPosV(zwischenV(b),:),0]),-1);
@@ -196,9 +203,10 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
             vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
             vRob.waitFor;
             %Ende Kippfunktion
-            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1); %Scanpos auf zwischenPos
+            vRob.moveAngles([1,2,3,4,5],point2angle(zwischenScanPos),-1);
             vRob.waitFor;
-            zwcolor=colorSort(getSensorColor(vRob));%Funktioniert Sensorcolor?
+            zwcolor=colorSort(getSensorColor(vRob));
+            %Wurde die falsche Farbe gedreht?
             if zwcolor~=a;
                %Dreht den Würfel über seine Hochachse
                vRob.moveAngles([1,2,3,4,5],point2angle([160,0,80,0,-50]),-1);
@@ -255,14 +263,20 @@ for a=0:1 %1. Hauptschleife für die Anzahl gegebener Farben
         end
    end
 end
+%Drehoperationen beendet
+
+%2. Hauptschleife Tauschoperationen. Es wird geprüft, ob bestimmte Würfel
+%schon richtig liegen. Falls nein, wird ein Tauschpartner gesucht und
+%getauscht.
 for a=1:9;
     b=1;
-    %Soll entspricht nicht Ist
+    %Tauschen notwendig?
     if A(a,1) ~= A(a,2);
+        %Suche Tauschpartner.
         while (A(a,1)~=A(a+b,2)||A(a+b,1)~=A(a,2)) && (b<9-a);
         b=b+1;
         end
-        %Zwei Fliegen mit einer Klatsche
+        %Es können zwei Würfel auf einmal richtig platziert werden.
         if A(a,1)==A(a+b,2) && A(a+b,1)==A(a,2);
             vRob.moveAngles([1,2,3,4,5],point2angle([gripPosHV(a,:),0]),-1);
             vRob.waitFor;
@@ -314,7 +328,7 @@ for a=1:9;
             vRob.waitFor;
             A(a,1) = A(a,2);
             A(a+b,1) = A(a+b,2);
-        %Beliebiger Tauschpartner    
+        %Beliebiger Tauschpartner wird genommen.   
         else
             b=1;
             while A(a,2) ~= A(a+b,1);
@@ -374,6 +388,7 @@ for a=1:9;
     else
     end
 end
+%Bewege vRob in Ausgangsposition.
 vRob.moveAngles([1,2,3,4,5],point2angle([180,0,50,0]),-1);
 vRob.waitFor;
 'Der VRob ist fertig'
