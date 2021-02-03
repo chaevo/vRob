@@ -1,4 +1,4 @@
-function tauschvorgang(A,vRob)
+function [A] = tauschvorgang(A,vRob)
 %Der Tauschvorgang ist der Bestandteil des Programms, der die Aufgabe, das
 %gewünschte Bild herzustellen, ausführt. Hierzu geht er mit der gegebenen 
 %Matrix A, welche die Soll- und Ist-Werte enthält, wie folgt vor: Zuerst 
@@ -46,7 +46,7 @@ zwischenScanPos = [203.5,0,65,90];
 %Jeden Fall des Codes durchgehen und prüfen
 
 %Hier wird geprüft, ob bereits gescannt wurde.
-if (A(1,1)~=-1)
+if A(1,1)~=-1
     
 %1. Hauptschleife für die Überprüfung der nötigen Anzahl für
 %Tauschoperationen.
@@ -395,4 +395,5 @@ vRob.waitFor;
 else
     'Es muss zuerst gescannt werden'
 end
+[A] = A
 end
