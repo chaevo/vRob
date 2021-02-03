@@ -1,10 +1,10 @@
-function [istFarben]= scanAll (vRob)
+function [istFarben]= scanAll (A,vRob)
 %SCANALL Funktion zum scannen aller Würfel
 % Diese Funktion fährt alle Würfel an und scannt sie drei mal. Die Werte
 % werden miteinander verglichen.Wenn sie gleich sind werden die Werte als
 % Matrix weitergegeben.
 
- vRob = VirtualRobot('random')
+%  vRob = VirtualRobot('random')
 
 %Variablen definieren
 scanPos1 = [292.2988,-70.1517,65,90];
@@ -17,7 +17,10 @@ scanPos7 = [412.9391,-66.9631,65,90];
 scanPos8 = [413.5,0,65,90];
 scanPos9 = [412.9391,66.9631,65,90];
 
-istFarben=[ -1 -1;-1 -1; -1 -1;-1 -1;-1 -1;-1 -1;-1 -1;-1 -1;-1 -1];
+%istFarben=[ -1 -1;-1 -1; -1 -1;-1 -1;-1 -1;-1 -1;-1 -1;-1 -1;-1 -1];
+
+istFarben=A;
+
 
 %Position 1
 a=0;
