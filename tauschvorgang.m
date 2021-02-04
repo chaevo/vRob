@@ -1,11 +1,13 @@
-function [A] = tauschvorgang(A,vRob)
-%Der Tauschvorgang ist der Bestandteil des Programms, der die Aufgabe, das
+function [Ausgabe] = tauschvorgang(A,vRob)
+%TAUSCHVORGANG Der Tauschvorgang ist der Bestandteil des Programms, der die Aufgabe, das
 %gewünschte Bild herzustellen, ausführt. Hierzu geht er mit der gegebenen 
 %Matrix A, welche die Soll- und Ist-Werte enthält, wie folgt vor: Zuerst 
 %dreht der Roboter alle Würfel so, dass es genügend Tauschpartner für jede 
 %gewünschte Farbe gibt. Daraufhin tauscht er jeden Würfel so, dass das 
 %gewünschte Bild entsteht.
 
+%Textausgabe für GUI.
+global text
 %Positionsdaten
 scanPos1 = [292.2988,-70.1517,65];
 scanPos2 = [293.5,0,65];
@@ -45,9 +47,6 @@ zwischenScanPos = [203.5,0,65,90];
 %anständige Kommentare
 %Jeden Fall des Codes durchgehen und prüfen
 
-%Hier wird geprüft, ob bereits gescannt wurde.
-if A(1,1)~=-1
-    
 %1. Hauptschleife für die Überprüfung der nötigen Anzahl für
 %Tauschoperationen.
 for a=0:1
@@ -391,9 +390,6 @@ end
 %Bewege vRob in Ausgangsposition.
 vRob.moveAngles([1,2,3,4,5],point2angle([180,0,50,0]),-1);
 vRob.waitFor;
-'Der VRob ist fertig'
-else
-    'Es muss zuerst gescannt werden'
-end
-[A] = A
+text = 'Der VRob ist fertig'
+[Ausgabe] = A
 end
